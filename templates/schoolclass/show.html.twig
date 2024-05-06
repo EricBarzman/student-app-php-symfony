@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}School class{% endblock %}
+
+{% block main %}
+<main class="container">
+    <h1 class="mb-4">{{ school_class.className }}</h1>
+    <table class="table table-striped mb-4">
+        <tbody>
+            <tr>
+                <th class="col-3">Number of students</th>
+                <td>{{ school_class.students|length }}</td>
+            </tr>
+            <tr>
+                <th>Main teacher's name</th>
+                <td>{{ school_class.teacherName }}</td>
+            </tr>
+            <tr>
+                <th>Promotion year</th>
+                <td>{{ school_class.promotionYear }}</td>
+            </tr>
+            <tr>
+                <th>Student List</th>
+                <td>
+                    <a href="{{ path('app_student_list_by_class', {'id': school_class.id}) }}">See list</a>
+                </td>
+            </tr>
+            <tr>
+                <th>Timetable</th>
+                <td>
+                    <a href="{{ path('app_timetable_show', {'id': school_class.id}) }}">
+                        {% if (school_class.timetable) %}
+                        {{ school_class.timetable.timetable == [] ? 'Create' : 'See' }}
+                        {% else %}
+                        Create
+                        {% endif %}
+                        timetable
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="col-5 mt-5 container">
+        <div class="d-flex flex-column justify-content-around">
+            <a class="btn btn-primary m-3" href="{{ path('app_school_class_edit', {'id': school_class.id}) }}">Edit</a>
+            <a class="btn btn-info m-3" href="{{ path('app_school_class_index', {'page': 1}) }}">Back to list</a>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User index{% endblock %}
+
+{% block main %}
+    <main class="container">
+        <h1 class="mb-4">User index</h1>
+        <div class="table-responsive-sm">
+            <table class="table table-striped mb-5">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>First name</th>
+                        <th>Last name</th>
+                        <th>Pincode</th>
+                        <th>Access level</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.firstname }}</td>
+                        <td>{{ user.lastname }}</td>
+                        <td>{{ user.pincode }}</td>
+                        {% if 'ROLE_ADMIN' in user.roles %}
+                        <td>Administrator</td>
+                        {% elseif 'ROLE_EDITOR' in user.roles %}
+                        <td>Scan and create</td>
+                        {% else %}
+                        <td>Scan-only user</td>
+                        {% endif %}
+                        <td>
+                            <a href="{{ path('app_user_show', {'id': user.id}) }}">Show</a>
+                        </td>
+                        <td>
+                            <a href="{{ path('app_user_edit', {'id': user.id}) }}">Edit</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5">No records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-5 container">
+            <div class="d-flex flex-column justify-content-around">
+                <a class="btn btn-primary m-3" href="{{ path('app_user_new') }}">Create new</a>
+                <a class="btn btn-info m-3" href="{{ path('app_admin_entry') }}">Back</a>
+            </div>
+        </div>
+    </main>
+
+    
+{% endblock %}

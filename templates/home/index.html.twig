@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <main class="container">
+        {% if (message) %}
+            <div class="container-fluid mx-auto text-center alert alert-danger">
+                {{ message }}
+            </div>
+        {% endif %}
+        
+        <div class="d-flex mt-4 flex-column justify-content-center align-self-center align-items-center p-4" style="height: 60vh;">
+            <div class="p-4 m-2">
+                <a class="btn btn-primary p-5 text-uppercase text-white font-weight-bold" style="width: 200px;" href="{{ path('app_search') }}">Scan</a>
+            </div>
+        
+            {% if is_granted('ROLE_EDITOR') %}
+            <div class="p-4 m-2">
+                <a class="btn p-5 btn-secondary text-white text-uppercase font-weight-bold"
+                style="width: 200px;" href="{{ path('app_student_create') }}">Create</a>
+            </div>
+            {% endif %}
+        </div>
+    </main>
+{% endblock %}

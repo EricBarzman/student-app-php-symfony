@@ -1,0 +1,38 @@
+<div class="container">
+    {{ form_start(form) }}
+        <div class="row">
+            <div class="mb-3 col-3 p-2">{{ form_label(form.class_name) }}</div>
+            <div class="mb-3 col-2 p-2">{{ form_widget(form.class_name) }}</div>
+        </div>
+        <div class="row">
+            <div class="mb-3 col-3 p-2">{{ form_label(form.teacher_name) }}</div>
+            <div class="mb-3 col-2 p-2">{{ form_widget(form.teacher_name) }}</div>
+        </div>
+        <div class="row">
+            <div class="mb-3 col-3 p-2">{{ form_label(form.promotion_year) }}</div>
+            <div class="mb-3 col-3 p-2">{{ form_widget(form.promotion_year) }}</div>
+        </div>
+
+        {% if app.request.get('_route') == 'app_school_class_edit' %}
+        <div class="row">
+            <div class="mb-3 col-3 p-2">Timetable</div>
+            <div class="mb-3 col-3 p-2">
+                <a href="{{ path('app_timetable_show', {'id': school_class.id}) }}">    
+                    {% if (school_class.timetable) %}
+                    {{ school_class.timetable.timetable == [] ? 'Create' : 'See' }}
+                    {% else %}
+                    Create
+                    {% endif %}
+                    timetable
+                </a>
+            </div>
+        </div>  
+         {% endif %}
+
+        <div class="col-5 mt-5 container">
+            <div class="d-flex flex-column justify-content-around">
+                <button class="btn btn-primary m-3" type="submit" class="btn">{{ button_label|default('Create') }}</button>
+            </div>
+        </div>
+    {{ form_end(form) }}
+</div>

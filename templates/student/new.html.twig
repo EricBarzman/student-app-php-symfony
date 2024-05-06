@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+{% block title %}New Student{% endblock %}
+
+{% block main %}
+    <main class="container">
+        <h1 class="p-2 mx-auto text-center bg-secondary text-white mb-4">Create Student</h1>
+        {{ include('student/_camera.html.twig') }}
+        {{ include('student/_form.html.twig') }}
+        <div class="col-5 container">
+            <div class="d-flex flex-column justify-content-around">
+                {% if 'ROLE_ADMIN' in app.user.roles %}
+                    <a class="btn btn-info m-3" href="{{ path('app_admin_entry') }}">Back</a>
+                {% else %}
+                    <a class="btn btn-info m-3" href="{{ path('app_home') }}">Back</a>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+{% endblock %}
+
+{% block additionalJS %}
+    {{ include('student/scriptJS.html.twig') }}
+{% endblock %}

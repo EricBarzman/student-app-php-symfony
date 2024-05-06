@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Search student{% endblock %}
+
+{% block main %}
+<main class="container">
+    <div class="d-flex flex-column align-items-center p-3">
+    
+        <div id="reader" style="width: 70vw;"></div>
+        <div class="border p-2 mt-5" id="result">Please scan QR code...</div>
+    
+        {% if (messageText) %}
+        <div class="alert alert-warning mt-3">{{ messageText }}</div>
+        {% endif %}
+
+        <div class="mx-auto mt-3">
+            <div>Search student ID</div>
+            <form id="search" action="/app/search" method="post">
+                <input id="search-id" type="text" name="student_id" placeholder="Enter id number...">
+                <button class="btn btn-secondary text-white" type="submit">Search</button>
+            </form>
+        </div>
+    
+        <div class="mx-auto mt-3">
+            <a class="btn btn-info text-white" href="{{ path('app_home') }}">Back</a>
+        </div>
+    </div>
+</main>
+{% endblock %}

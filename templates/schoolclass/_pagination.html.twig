@@ -1,0 +1,22 @@
+{# Pagination #}
+<span>Page</span>
+<a {% if currentPage == 1 %} style="text-decoration : none; color: black" {% endif %} href="{{ path('app_school_class_index', { 'page': 1 }) }}">1</a>
+
+{% for i in 1..totalPages %}
+    
+    {% if loop.index == (currentPage - 3) and (currentPage - 1) > 1 %}
+        ...
+    {% elseif loop.index == (currentPage + 3) and (currentPage + 1) < totalPages %}
+        ...
+    {% elseif loop.index < (currentPage - 3) %}
+    {% elseif loop.index > (currentPage + 2) %}
+    {% elseif loop.index == 1 %}
+    {% elseif loop.index == totalPages %}
+    {% else %}
+        <a class="m-2" {% if currentPage == loop.index %} style="color: black; text-decoration : none;" {% endif %} href="{{ path('app_school_class_index', { 'page': loop.index}) }}">{{ loop.index }}</a>
+    {% endif %}
+{% endfor %}
+
+{% if totalPages > 1 %}
+<a {% if currentPage == totalPages %} style="color: black; text-decoration : none;" {% endif %} href="{{ path('app_school_class_index', { 'page': totalPages }) }}">{{ totalPages }}</a>
+{% endif %}

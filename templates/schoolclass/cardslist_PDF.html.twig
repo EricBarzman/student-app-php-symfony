@@ -1,0 +1,31 @@
+<div style="width: 100%;">
+{% for student in students %}  
+    
+    <div style="
+        float: {{ loop.index % 2 == 0 ? 'right' : 'left' }};
+        padding: 0.5em;
+        border: solid 1px black;
+        width: 47.54%;
+        height: 180px;
+    ">  
+        <div style="text-align: center; float: left; width: 40%;">
+            {% if student.photoPath == '' %}
+                <img src="/default_pfp.svg" style="max-height: 110px;" alt="student photo">
+            {% else %}
+                <img src="/uploads/photos/{{ student.photoPath }}" style="max-height: 100px;">
+            {% endif %}   
+            <h2 style="text-align: center; font-size: 1rem; border : solid 1px black; border-radius : 10px;">{{student.studentId}}</h2>
+        </div>
+        
+        <div style="font-size: 1em; float: right; width: 50%; height: 10%;">
+            <div>
+                <img style="margin-top : 0.5rem; width: 60px;" src="https://api.qrserver.com/v1/create-qr-code/?data={{ student.studentId }}" alt="QR code"/>
+                <img src="logocolorv2.png" style="width : 20px; height: 25px; position: absolute; top: 5px; right: 5px"/>
+            </div>
+            <h2 style="font-size: 0.8rem;">{{ student.firstname }} {{ student.lastname|upper }}</h2>
+            <h2 style="font-size: 0.8rem;">{{student.schoolclass.className}}</h2>
+            <p style="height : 20px; font-size: 0.55rem;">Notes: {{ student.cardComments }}</p>
+        </div>
+    </div>
+{% endfor %}
+</div>

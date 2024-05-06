@@ -1,0 +1,132 @@
+<html>
+    <head>
+        <style>
+            @page {
+                margin-left: 20px;
+                size: A4 portrait;
+            }
+
+            .container {
+                margin-top: 20px;
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            .card {
+                display: flex;
+                padding: 0.75em;
+                border: solid 1px black;
+                width: 3.5in;
+                height: 2in;
+                page-break-inside: avoid;
+            }
+
+            {# Left #}
+            .card__container-left {
+                width: 30%;
+                margin-top: 1em;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+
+            .student-id {
+                width : 60%;
+                border: solid 1px black;
+                padding: 0.3em 0.8em;
+                border-radius : 10px;
+                text-align: center;
+                font-size: 1rem;
+            }
+
+            .student-photo {
+                width: 0.8in;
+                object-fit: contain;
+            }
+
+            {# Right #}
+            .card__container-right {
+                width : 65%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                margin-bottom: 1em;
+            }
+
+            .logo-qr__container {
+                display: flex;
+                justify-content : space-between;
+                align-items: baseline;
+            }
+
+            .logo {
+                height: 0.35in;
+            }
+
+            .qr {
+                height: 0.5in;
+            }
+
+            .student-name {
+                font-size: 1rem;
+            }
+
+            .classname {
+                font-size: 1rem;
+            }
+
+            .notes {
+                font-size: 0.7rem;
+            }
+
+            @media print {
+                body {
+                    margin : 0px;
+                }
+            }
+            
+        </style>
+    </head>
+
+    <body>
+        {# This container will be broken at the modulo  #}
+        <div class="container">
+        
+        {% for student in students %}
+            <div class="card break">
+                {# Gauche #}
+                <div class="card__container-left">
+                    {% if student.photoPath == '' %}
+                        <img src="/default_pfp.svg" class="student-photo">
+                    {% else %}
+                        <img src="/uploads/photos/{{ student.photoPath }}" class="student-photo">
+                    {% endif %}
+                    <h2 class="student-id">{{student.studentId}}</h2>
+                </div>
+                
+                {# Droite #}
+                <div class="card__container-right">
+                    <div>
+                        <h2 class="student-name">{{ student.firstname }} {{ student.lastname|upper }}</h2>
+                        <h2 class="classname">{{student.schoolclass.className}}</h2>
+                        <footer class="notes">Notes: {{ student.cardComments }}</footer>
+                    </div>
+                    <div class="logo-qr__container">
+                        <img src="/logocolorv2.png" class="logo"/>
+                        <img class="qr" src="https://api.qrserver.com/v1/create-qr-code/?data={{ student.studentId }}"/>       
+                    </div>
+                </div>
+
+            </div>       
+            {# 8 cards per page. A mecanism to stop the current container and start a new one #}
+            {% if loop.index % 8 == 0 %}
+            <div style="page-break-after: always;"></div>  
+        </div>
+        <div class="container {{ loop.index }}">  
+        {% endif %}
+
+        {% endfor %}
+        {# Loop is ended, we close the container for good #}
+        </div>
+    </body>
+</html>

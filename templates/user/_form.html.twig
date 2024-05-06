@@ -1,0 +1,32 @@
+<div class="container">
+    {{ form_start(form) }}
+        {{ form_errors(form) }}
+        <div class="row">
+            <div class="mb-3 col-3 p-2">{{ form_label(form.username) }}</div>
+            <div class="mb-3 col-2 p-2">{{ form_widget(form.username) }}</div>
+        </div>
+        <div class="row">
+            <div class="mb-3 col-3 p-2">{{ form_label(form.firstname) }}</div>
+            <div class="mb-3 col-2 p-2">{{ form_widget(form.firstname) }}</div>
+        </div>
+        <div class="row">
+            <div class="mb-3 col-3 p-2">{{ form_label(form.lastname) }}</div>
+            <div class="mb-3 col-2 p-2">{{ form_widget(form.lastname) }}</div>
+        </div>
+        <div class="row d-flex">
+            <div class="mb-3 col-3 p-2">Roles</div>
+            <div class="mb-3 col-2 p-2">
+                <select name="roles" class="p-2">
+                    <option value='ROLE_USER'>Scan-only</option>
+                    <option value='ROLE_EDITOR'>Scan & Create File</option>
+                    <option value='ROLE_ADMIN'>Administrator</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-5 mt-5 container">
+            <div class="d-flex flex-column justify-content-around">
+                <button class="btn btn-primary m-3" type="submit" class="btn">{{ button_label|default('Create') }}</button>
+            </div>
+        </div>
+    {{ form_end(form) }}
+</div>

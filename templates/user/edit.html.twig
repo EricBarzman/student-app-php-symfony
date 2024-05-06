@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit User{% endblock %}
+
+{% block main %}
+    <main class="container">
+        <h1 class="mb-4">Edit user</h1>
+        
+        <div class="container">
+            {{ form_start(form) }}
+                {{ form_errors(form) }}
+                <div class="row">
+                    <div class="mb-3 col-3 p-2">{{ form_label(form.username) }}</div>
+                    <div class="mb-3 col-2 p-2">{{ form_widget(form.username) }}</div>
+                </div>
+                <div class="row">
+                    <div class="mb-3 col-3 p-2">{{ form_label(form.firstname) }}</div>
+                    <div class="mb-3 col-2 p-2">{{ form_widget(form.firstname) }}</div>
+                </div>
+                <div class="row">
+                    <div class="mb-3 col-3 p-2">{{ form_label(form.lastname) }}</div>
+                    <div class="mb-3 col-2 p-2">{{ form_widget(form.lastname) }}</div>
+                </div>
+                <div class="row">
+                    <div class="mb-3 col-3 p-2">Pincode</div>
+                    <div class="mb-3 col-2 p-2">{{ user.pincode }}</div>
+                </div>
+                <div class="row d-flex">
+                    <div class="mb-3 col-3 p-2">Roles</div>
+                    <div class="mb-3 col-2 p-2">
+                        <select id="roles" name="roles" class="p-2">
+                            <option value='ROLE_USER'>Scan-only</option>
+                            <option value='ROLE_EDITOR'>Scan & Create File</option>
+                            <option value='ROLE_ADMIN'>Administrator</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-5 mt-5 container">
+                    <div class="d-flex flex-column justify-content-around">
+                        <button class="btn btn-primary m-3" type="submit" class="btn">Update</button>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        </div>
+                
+        <div class="container col-5 mt-3 d-flex flex-column justify-content-around">
+            <a onclick="return confirm('Are you sure you want to change pincode?');"
+                href="{{ path('app_user_change_pincode', {'id': user.id}) }}"
+                class="btn btn-secondary text-white m-3"
+            >
+                Change pin
+            </a>
+        </div>
+        {% if not (app.user.username == user.username) %}
+        {{ include('user/_delete_form.html.twig') }}
+        {% endif %}
+        
+        <div class="col-5 mt-3 container">
+            <div class="d-flex flex-column justify-content-around">
+                <a class="btn btn-info m-3" href="{{ path('app_user_index') }}">Back to list</a>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+{% block additionalJS %}
+<script>
+    // Set select element at the proper value
+    const userRole = `{{ user.roles|json_encode }}`;
+    const rolesSelectInput = document.getElementById('roles')
+    if (userRole.includes('ROLE_ADMIN')) {
+        for (option of rolesSelectInput) {
+            if (option.value === "ROLE_ADMIN") option.selected = true;
+        }
+    }
+    else if (userRole.includes('ROLE_EDITOR')) {
+        for (option of rolesSelectInput) {
+            if (option.value === "ROLE_EDITOR") option.selected = true;
+        }
+    }
+</script>
+{% endblock %}

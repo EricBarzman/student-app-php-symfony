@@ -1,0 +1,15 @@
+{% if (hour < 11) %}
+{{ [hour, 'am-', hour + 1, 'am']|join }}
+{% endif %}
+
+{% if (hour == 11) %}
+{{ [hour, 'am-', hour + 1, 'pm']|join }}
+{% endif %}
+
+{% if (hour == 12) %}
+{{ [hour, 'pm-', hour - 11, 'pm']|join }}
+{% endif %}
+
+{% if (hour > 12) %}
+{{ [hour - 12, 'pm-', hour - 11, 'pm']|join }}
+{% endif %}

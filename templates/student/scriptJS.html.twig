@@ -1,0 +1,167 @@
+<script>
+    
+    {# Find geolocation coordinates #}
+    const geoHiddenField = document.getElementById('student_address')
+    const geoBtn = document.getElementById('geolocation-set');
+    const geoDisplayElement = document.getElementById('geolocation-display');
+    geoBtn.addEventListener('click', async function() {
+        geoBtn.textContent = "Searching...";
+        let geolocation = await navigator.geolocation.getCurrentPosition((position) => {
+        geolocationValue = `${position.coords.latitude}, ${position.coords.longitude}`;
+        geoHiddenField.value = geolocationValue;
+        geoDisplayElement.classList.remove('d-none');
+        geoDisplayElement.textContent = geolocationValue;
+        geoBtn.textContent = "Set new coordinates";
+    })})
+
+
+    {# Open "other" relationship field #}
+    function handleChangeChoice(e) {
+        if (e.target.value === 'Other') otherFieldElement.classList.remove('d-none');
+        else {            
+            relationshipHiddenField.value = e.target.value
+            otherFieldElement.classList.add('d-none');
+        }
+    }
+    function handleChangeOther(evt) {
+        relationshipHiddenField.value = evt.target.value
+    }
+    const relationshipHiddenField = document.getElementById('student_emergency_contact_relationship_to_student')
+    const relationshipChoiceElement = document.getElementById('relationship-select');
+    const otherFieldElement = document.getElementById('relationship-other-field');
+    relationshipHiddenField.value = 'Father';
+
+    otherFieldElement.addEventListener('change', handleChangeOther)
+    relationshipChoiceElement.addEventListener('change', handleChangeChoice)
+    
+    // Set select element at the proper value
+    {% if (student.emergencyContactRelationshipToStudent) %}
+    const contactRelationship = `{{ student.emergencyContactRelationshipToStudent }}`;
+    if (contactRelationship == "Father" || contactRelationship == "Mother" || contactRelationship == "Relative" || contactRelationship == "Neighbour") {
+        for (option of relationshipChoiceElement) {
+            if (option.value === contactRelationship) option.selected = true;
+        }
+    }
+    else {
+        for (option of relationshipChoiceElement) if (option.value === 'Other') option.selected = true;
+        otherFieldElement.classList.remove('d-none');
+        otherFieldElement.value = contactRelationship;
+    }
+    {% endif %}
+    
+
+    /*   CAMERA DEVICE FUNCTIONS      */
+
+    const IMAGE_RATIO = 0.5; 
+
+    // Start, Take and Delete Buttons
+    const startCameraBtn = document.getElementById('start-camera');
+    const takePhotoBtn = document.getElementById('click-photo');
+    const deleteBtn = document.getElementById('delete-photo');
+    
+    // Front or Back camera and choice container
+    const btnFront = document.getElementById('front-btn');
+    const btnBack = document.getElementById('back-btn');
+    const choiceBtn = document.getElementById('front-back-btns');
+
+    // Video canvas, photo canvas, hidden input
+    const videoElement = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const photoHiddenInput = document.getElementById('photo-hidden');
+    
+    let image_data_url = ''
+    let stream;
+
+    // What happens when you click the front/back buttons
+    async function capture (facingMode) {
+        const options = {
+            audio: false,
+            video: { facingMode }
+        };
+        try {
+            if (stream) {
+                const tracks = stream.getTracks();
+                tracks.forEach(track => track.stop());
+            }
+            stream = await navigator.mediaDevices.getUserMedia(options);
+        } catch (e) {
+            alert(e);
+            return;
+        }
+        videoElement.srcObject = null;
+        videoElement.srcObject = stream;
+
+        // Switch mirroring on if Front cam else switch it off
+        if (facingMode == 'user') videoElement.style.transform = "scalex(-1)";
+        else videoElement.style.transform = "";
+    }
+
+    btnBack.addEventListener('click', () => capture('environment'));
+    btnFront.addEventListener('click', () => { capture('user') });
+    
+
+    // Clicking on Start
+    startCameraBtn.addEventListener('click', async () => {
+        
+        // Switch "start" to "stop, show Take and choice container
+        startCameraBtn.textContent = startCameraBtn.textContent == "Start camera" ? "Stop camera" : "Start camera";
+        takePhotoBtn.classList.toggle('d-none');
+        choiceBtn.classList.toggle('d-none');
+        
+        // Show video canvas
+        videoElement.classList.toggle('d-none');
+        // Turn off mirroring
+        videoElement.style.transform = "";
+        
+        // Turn the stream on
+        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode : 'environment' }, audio: false})
+        videoElement.srcObject = null;
+        videoElement.srcObject = stream ;
+    });
+    
+    // Clicking on Take photo
+    takePhotoBtn.addEventListener('click', () => {
+        
+        // Remove the Front/Back choice
+        choiceBtn.classList.toggle('d-none');
+        
+        // Show the photo canva, fill it with the stream image
+        canvas.classList.remove('d-none');
+        canvas.width = videoElement.videoWidth;
+        canvas.height = videoElement.videoHeight;
+        canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+        
+        // Recover the photo URL and set it in the hidden input
+        image_data_url = canvas.toDataURL("image/jpeg", 0.85);
+        photoHiddenInput.value = image_data_url;
+
+        // Remove Take button, turn off stream, remove video canva and switch to "Start"
+        takePhotoBtn.classList.toggle('d-none');
+        videoElement.classList.toggle('d-none');
+        videoElement.srcObject = null;
+        
+        // Reset start btn to "start" and hide it, for now
+        startCameraBtn.textContent = "Start camera";
+        startCameraBtn.classList.add('d-none');
+
+        // If delete button is not there, show it
+        if (deleteBtn.classList.contains('d-none')) deleteBtn.classList.toggle('d-none');
+    });
+
+    // Clicking on Delete
+    deleteBtn.addEventListener('click', () => {
+        
+        // Remove photo canvas
+        if (!canvas.classList.contains('d-none')) canvas.classList.add('d-none');
+        
+        // Empty hidden input value
+        photoHiddenInput.value = null;
+
+        // Remove Delete
+        deleteBtn.classList.toggle('d-none');
+
+        // Show start button
+        startCameraBtn.classList.toggle('d-none');
+    })
+
+</script>

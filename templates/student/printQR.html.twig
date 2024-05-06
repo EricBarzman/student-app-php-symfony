@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Print QR code{% endblock %}
+
+{% block main %}
+    <div class="d-flex flex-column m-2 p-4 mb-4">  
+        <div class="d-flex p-3 mt-4 justify-content-around align-items-center">
+            <img class="col-6" style="width: 300px;" src="https://api.qrserver.com/v1/create-qr-code/?data={{ student.studentId }}" alt="QR code"/>
+
+            <div class="border p-5 col-6">
+                <div class="d-flex align-items-center">
+                    <h3 class="border p-3">{{student.studentId}}</h3>
+                </div>
+                <h2 class="p-2">{{ student.firstname }} {{ student.lastname }}</h2>
+                <h3 class="p-2">{{student.schoolclass.className}}</h3>
+                <h3 class="p-2">Here since {{ student.createdAt|date('Y') }}</h3>
+                <p class="p-2">Notes: {{ student.cardComments }}</p>
+            </div>
+        </div>
+
+        
+        <div class="col-5 mt-5 container">
+            <div class="d-flex flex-column justify-content-around">
+                <button class="btn btn-primary m-3" onclick="window.print()">Print</button>    
+                <a class="btn btn-info m-3" href="{{ path('app_student_show', {'id': student.id}) }}">Back</a>    
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

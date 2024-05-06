@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Student index{% endblock %}
+
+{% block main %}
+    <main class="container">
+        <h1 class="mb-4">Student index</h1>
+        <p class="mt-5">{{ numberStudents }}</p>
+        
+        {# Search form #}
+        {{ include('student/_indexForm.html.twig') }}
+
+        {# Table results #}
+        {{ include('student/_indexTable.html.twig') }}
+
+        {# Pagination #}
+        {{ include('student/_pagination.html.twig') }}
+
+        {# Menu sortie #}
+        <div class="col-5 mt-5 container">
+            <div class="d-flex flex-column justify-content-around">
+                <a class="btn btn-primary m-3" href="{{ path('app_student_create') }}">Create new</a>
+                {# If desktop app  #}
+                {% if 'ROLE_ADMIN' in app.user.roles %}
+                    <a class="btn btn-info m-3" href="{{ path('app_admin_entry') }}">Back to home</a>
+                {# If mobile app #}
+                {% else %}
+                    <a class="btn btn-info m-3" href="{{ path('app_home') }}">Back</a>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+{% endblock %}

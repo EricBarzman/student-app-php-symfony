@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+        <div class="container-fluid text-center mt-5">
+            <a class="btn btn-secondary text-white p-2 m-3 font-weight-bold" style="width: 200px;" href="{{ path('app_student_index', {'page': 1}) }}">Students</a>
+            <a class="btn btn-primary p-2 m-3 font-weight-bold" style="width: 200px;" href="{{ path('app_school_class_index', {'page': 1}) }}">Classes</a>
+            <a class="btn btn-info p-2 m-3 font-weight-bold" style="width: 200px;" href="{{ path('app_user_index') }}">Users</a>
+            <a class="btn btn-warning p-2 m-3 text-white font-weight-bold" style="width: 200px;" href="{{ path('app_search') }}">Scan</a>
+        </div>
+{% endblock %}

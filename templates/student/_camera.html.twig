@@ -1,0 +1,15 @@
+<div class="container text-center mt-3">
+    <div class="mb-4">
+        <button class="btn btn-primary border-secondary" style="border: 1px solid;" id="start-camera">Start camera</button>
+        <button class="btn btn-danger d-none" style="color: white; border: 1px solid;" id="delete-photo">Delete</button>
+    </div>
+    <div id="front-back-btns" class="d-none mb-3">
+        <button id="front-btn" class="btn btn-info">Front cam</button>
+        <button id="back-btn" class="btn btn-info">Back cam</button>
+    </div>
+    <div>
+        <video class="d-none" id="video" style="width: 80vw;" playsinline autoplay></video>
+        <canvas class="d-none" id="canvas" style="width: 80vw;"></canvas>
+    </div>
+    <button class=" rounded-circle p-3 rounded-pill bg-secondary border-secondary hover:bg-primary d-none" style="color: white; border: 1px solid;" id="click-photo">Take photo</button>
+</div>

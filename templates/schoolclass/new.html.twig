@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New SchoolClass{% endblock %}
+
+{% block main %}
+<main class="container">
+    <h2>Create new class</h2>
+    {{ include('schoolclass/_form.html.twig') }}
+    <div class="col-5 mt-3 container">
+        <div class="d-flex flex-column justify-content-around">
+            <a class="btn btn-info m-3" href="{{ path('app_school_class_index', {'page': 1}) }}">Back to list</a>
+        </div>
+    </div>
+</main>
+{% endblock %}

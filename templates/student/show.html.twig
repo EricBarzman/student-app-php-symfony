@@ -1,0 +1,170 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Student file{% endblock %}
+
+{% block main %}
+    <main class="container">
+        <div class="d-flex flex-column p-3 mb-4">
+            <h1 class="p-2 text-center border">{{ student.firstname }} {{ student.lastname }}</h1>
+            
+            <div class="row">
+                <div class="col-sm mb-4 text-center">
+                    {% if student.photoPath == '' %}
+                        <img src="/default_pfp.svg" style="width: 200px; min-width:100px" alt="student photo">
+                    {% else %}
+                        <img src="/uploads/photos/{{ student.photoPath }}" style="width: 300px; min-width:50px" alt="student photo">
+                    {% endif %}
+                </div>
+                <div class="col-sm-4 d-flex flex-column justify-content-center">
+                    <h3 class="alert alert-info">{{student.studentId}}</h3>
+                    <div>
+                        {% if student.gender == 2 %}
+                            <div class="alert alert-warning">GIRL</div>
+                        {% endif %}
+                        {% if student.gender == 1 %}
+                            <div class="alert alert-success">BOY</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <table class="table table-striped m-1">
+                    <tr>
+                        <th>First name</th>
+                        <td>{{ student.firstname }}</td>
+                    </tr>
+                    <tr>
+                        <th>Last name</th>
+                        <td>{{ student.lastname }}</td>
+                    </tr>
+                    <tr>
+                        <th>Age</th>
+                        <td>{{ age.y }} years old</td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Date of birth
+                        </th>
+                        <td>
+                            <div>{{ student.birthdate ? student.birthdate|date('M-d-Y') : '' }}</div>
+                            {% if (student.birthdate|date('M-d') == "now"|date('M-d')) %}
+                            <div class="col-2 p-2 alert alert-secondary">HAPPY BIRTHDAY!</div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% if (student.address) %}
+                    <tr>
+                        <th>Geolocation address</td>
+                        <td>{{student.address }}
+                            <button onclick="location.href = 'https://www.google.com.sa/maps/search/{{ student.address }}';">On google maps</button>
+                        </td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <th>First inscription</td>
+                        <td>{{student.createdAt|date('M-Y')}}</td>
+                    </tr>
+                    <tr>
+                        <th>Class</td>
+                        <td>{{student.schoolclass.className}}</td>
+                    </tr>
+                    <tr>
+                        <th>Main teacher</td>
+                        <td>{{student.schoolclass.teacherName}}</td>
+                    </tr>
+                    {% if (student.schoolclass.timetable and student.schoolclass.timetable.timetable) %}
+                    <tr>
+                        <th>Class timetable</td>
+                        <td><a href="{{ path('app_student_show_timetable', {'id': student.id}) }}">See timetable</a></td>
+                    </tr>
+                    {% if (displayCurrentClass) %}
+                    <tr>
+                        <th>Current class</td>
+                        <td>{{ displayCurrentClass }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if (displayNextClass) %}
+                    <tr>
+                        <th>Next class today</td>
+                        <td>{{ displayNextClass }}</td>
+                    </tr>
+                    {% endif %}
+                    {% endif %}
+                </table>
+            </div>
+            <h3 class="container-fluid p-3 mt-4">Emergency contact</h3>
+            <table class="table table-striped m-1 mb-3">
+                <tr>
+                    <th>Phone number</th>
+                    <td class="col-6">{{ student.emergencyContactPhoneNumber }}</td>
+                </tr>
+                <tr>
+                    <th>Title</th>
+                    <td>
+                        {% if (student.emergencyContactGender) == 1 %}
+                            Mr
+                        {% endif %}
+                        {% if (student.emergencyContactGender) == 2 %}
+                            Mrs
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>First name</th>
+                    <td>{{ student.emergencyContactFirstname }}</td>
+                </tr>
+                <tr>
+                    <th>Last name</th>
+                    <td>{{ student.emergencyContactLastname }}</td>
+                </tr>
+                <tr>
+                    <th>Relationship to student</th>
+                    <td>{{ student.emergencyContactRelationshipToStudent }}</td>
+                </tr>
+            </table>
+            <h4 class="p-3 mt-4">Confidential information</h4>
+            <div>
+                <div class="p-4 mb-3 border">
+                    {% if (student.confidentialComments) %}
+                        {{ student.confidentialComments }}
+                    {% else %}
+                    No remarks
+                    {% endif %}
+                </div>
+                <div class="col"></div>
+            </div>
+            <h4 class="p-3 mt-4">Comments for the student card</h4>
+            <div>
+                <div class="p-4 mb-3 border">
+                    {% if (student.cardComments) %}
+                        {{ student.cardComments }}
+                    {% else %}
+                    No comments
+                    {% endif %}
+                </div>
+                <div class="col"></div>
+            </div>
+            {# QR code #}
+            <div class="d-flex p-4 mt-4 justify-content-around">
+                <img style="width: 200px;" src="https://api.qrserver.com/v1/create-qr-code/?data={{ student.studentId }}" alt="QR code"/>
+            </div>
+            <div class="col-5 mt-5 container">
+                <div class="d-flex flex-column justify-content-around">
+                    {# Edit #}
+                    {% if is_granted('ROLE_EDITOR') %}
+                    <a class="btn btn-primary m-3" href="{{ path('app_student_edit', {'id': student.id}) }}">Edit</a>
+                    {% endif %}
+        
+                    {# Go back #}
+                    {% if 'ROLE_ADMIN' in app.user.roles %}
+                        <a class="btn btn-info m-3" href="{{ path('app_student_index', {'page': 1}) }}">Back</a>
+                    {% else %}
+                        <a class="btn btn-info m-3" href="{{ path('app_home') }}">Back</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </main>
+    
+{% endblock %}

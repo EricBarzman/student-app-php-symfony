@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Timetable{% endblock %}
+
+{% block main %}
+    <h1 class="mb-5">Timetable for {{ school_class.className }}</h1>
+
+        <div class="table-responsive-sm">
+            <table class="table table-striped mb-5">
+                <thead>
+                    <th class="col-xs"></th>
+                    {% for hour in timetable['Monday']|keys %}
+                    <th class="col-xs">
+                        {{ include('timetable/_time_converter.html.twig') }}
+                    </th>
+                    {% endfor %}
+                </thead>
+            
+                <tr class="col-xs">
+                    <th>Monday</th>
+                    {% for hour in timetable['Monday'] %}
+                    <td class="col-xs">{{ hour ? hour : ' - ' }}</td>
+                    {% endfor %}
+                </tr>
+
+                <tr class="col-xs">
+                    <th>Tuesday</th>
+                    {% for hour in timetable['Tuesday'] %}
+                    <td class="col-xs">{{ hour ? hour : ' - ' }}</td>
+                    {% endfor %}
+                </tr>
+
+                <tr class="col-xs">
+                    <th>Wednesday</th>
+                    {% for hour in timetable['Wednesday'] %}
+                    <td class="col-xs">{{ hour ? hour : ' - ' }}</td>
+                    {% endfor %}
+                </tr>
+
+                <tr class="col-xs">
+                    <th>Thursday</th>
+                    {% for hour in timetable['Thursday'] %}
+                    <td class="col-xs">{{ hour ? hour : ' - ' }}</td>
+                    {% endfor %}
+                </tr>
+
+                <tr class="col-xs">
+                    <th>Friday</th>
+                    {% for hour in timetable['Friday'] %}
+                    <td class="col-xs">{{ hour ? hour : ' - ' }}</td>
+                    {% endfor %}
+                </tr>
+
+                <tr class="col-xs">
+                    <th>Saturday</th>
+                    {% for hour in timetable['Saturday'] %}
+                    <td class="col-xs">{{ hour ? hour : ' - ' }}</td>
+                    {% endfor %}
+                </tr>
+
+                <tr class="col-xs">
+                    <th>Sunday</th>
+                    {% for hour in timetable['Sunday'] %}
+                    <td class="col-xs">{{ hour ? hour : ' - ' }}</td>
+                    {% endfor %}
+                </tr>
+
+                {# {% for day in timetable|keys %}
+                <tr class="col-xs">
+                    <th>{{ day }}</th>
+                    {% for hour in timetable[day] %}
+                    <td class="col-xs">{{ hour ? hour : ' - ' }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %} #}
+            </table>
+        </div>
+
+        <div class="col-5 container">
+            <div class="d-flex flex-column justify-content-around">
+                <a class="btn btn-info m-3" href="{{ path('app_student_show', {'id': id}) }}">Back</a>
+            </div>
+        </div>
+    
+{% endblock %}

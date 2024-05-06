@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Classes index{% endblock %}
+
+{% block main %}
+<main class="container">
+    <h1 class="mb-4">Classes index</h1>
+    
+    {# Search form #}
+    {{ include('schoolclass/_indexForm.html.twig') }}
+
+    {# Table #}
+    {{ include('schoolclass/_indexTable.html.twig') }}
+
+    {# Pagination #}
+    {{ include('schoolclass/_pagination.html.twig') }}
+
+    <div class="col-5 container">
+        <div class="d-flex flex-column justify-content-around">
+            <a class="btn btn-primary m-3" href="{{ path('app_school_class_new') }}">Create new class</a>
+            <a class="btn btn-info m-3" href="{{ path('app_admin_entry') }}">Back</a>
+        </div>
+    </div>
+</main>
+{% endblock %}

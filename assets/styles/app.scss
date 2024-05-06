@@ -1,0 +1,13 @@
+$primary: #60bfc1;
+$secondary: #fdb7b9;
+$info: #badfd7;
+
+
+@import "~bootstrap/scss/bootstrap";
+
+// Required
+@import "/node_modules/bootstrap/scss/functions";
+
+// Required
+@import "/node_modules/bootstrap/scss/variables";
+@import "/node_modules/bootstrap/scss/mixins";

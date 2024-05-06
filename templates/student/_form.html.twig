@@ -1,0 +1,46 @@
+<div class="p-3">
+
+    {{ form_start(form) }}
+        <input type="hidden" id="photo-hidden" name="photo">
+        {{ form_row(form.firstname) }}
+        {{ form_row(form.lastname) }}
+        <div class="p-2 mb-2">{{ form_row(form.gender) }}</div>
+        <div class="col-6 mb-2">{{ form_row(form.birthdate) }}</div>
+        <div class="col-6 mb-4">{{ form_row(form.school_class)}}</div>
+        <div class="col-sm-6">{{ form_row(form.confidential_comments)}}</div>
+        <div class="col-sm-6">{{ form_row(form.card_comments)}}</div>
+        
+        {# Hidden #}
+        {{ form_row(form.address) }}
+        <div>
+            <button type="button" class="btn btn-primary mt-5 m-3" id="geolocation-set">Set geolocation address</button>
+            <div class="d-none p-2 alert alert-secondary" id="geolocation-display"></div>
+        </div>
+        
+        <h3 class="mt-4 mb-4">Emergency Contact Information</h3>
+        {{ form_row(form.emergency_contact_gender)}}
+        {{ form_row(form.emergency_contact_phone_number)}}
+        {{ form_row(form.emergency_contact_firstname)}}
+        <div class="mb-3">{{ form_row(form.emergency_contact_lastname)}}</div>
+        
+        {# Hidden #}
+        {{ form_row(form.emergency_contact_relationship_to_student)}}
+        <div id="relationship-container">
+            <label for="relationship-select">Relationship to student</label>
+            <select class="p-2" name="relationship-select" id="relationship-select">
+                <option value="Father">Father</option>
+                <option value="Mother">Mother</option>
+                <option value="Relative">Relative</option>
+                <option value="Neighbour">Neighbour</option>
+                <option value="Other">Other</option>
+            </select>
+            <input type="text" id="relationship-other-field" class="p-2 m-3 d-none">
+        </div>
+
+        <div class="col-5 container">
+            <div class="d-flex flex-column justify-content-around">
+                <button class="btn btn-primary mt-5 m-3">{{ button_label|default('Create') }}</button>
+            </div>
+        </div>
+    {{ form_end(form) }}
+</div>

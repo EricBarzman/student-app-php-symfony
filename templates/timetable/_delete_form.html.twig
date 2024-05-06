@@ -1,0 +1,8 @@
+<form method="post" action="{{ path('app_timetable_delete', {'id': school_class.id}) }}" onsubmit="return confirm('Are you sure you want to delete the timetable?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ school_class.id) }}">
+    <div class="col-5 mt-3 container">
+        <div class="d-flex flex-column justify-content-around">
+            <button class="btn btn-danger m-3">Delete</button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Timetable{% endblock %}
+
+{% block main %}
+    <h1 class="mb-5">Change timetable for {{ school_class.className }}</h1>
+
+    {{ include('timetable/_form.html.twig', {'url': 'edit'}) }}
+
+    {{ include('timetable/_delete_form.html.twig') }}
+    
+    <div class="col-5 mt-3 container">
+        <div class="d-flex flex-column justify-content-around">
+            <a class="btn btn-info m-3" href="{{ path('app_school_class_show', {'id': school_class.id}) }}">Back to class</a>
+        </div>
+    </div>
+
+{% endblock %}

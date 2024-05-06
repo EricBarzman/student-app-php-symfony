@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create user{% endblock %}
+
+{% block main %}
+    <main class="container">
+        <h1 class="mb-4">Create a new user</h1>
+        {{ include('user/_form.html.twig') }}
+        
+        <div class="col-5 container">
+            <div class="d-flex flex-column justify-content-around">
+                <a class="btn btn-info m-3" href="{{ path('app_user_index') }}">Back to list</a>
+            </div>
+        </div>
+    </main>
+{% endblock %}

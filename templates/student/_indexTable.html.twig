@@ -1,0 +1,45 @@
+<div class="table-responsive-sm">
+    <table class="table table-striped mt-5">
+        <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Gender</th>
+                <th>Date of Birth</th>
+                <th>Class</th>
+                <th>Emergency contact phone</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for student in students %}
+            <tr>
+                <td>{{ student.studentId }}</td>
+                <td>{{ student.firstname }}</td>
+                <td>{{ student.lastname }}</td>
+                <td>{% if student.gender == 2 %}
+                    <div>Girl</div>
+                {% endif %}
+                {% if student.gender == 1 %}
+                    <div>Boy</div>
+                {% endif %}</td>
+                <td>{{ student.birthdate ? student.birthdate|date('M-d-Y') : '' }}</td>
+                <td>{{ student.schoolClass.className }}</td>
+                <td>{{ student.emergencyContactPhoneNumber }}</td>
+                <td>
+                    <a href="{{ path('app_student_show', {'id': student.id}) }}">Show</a>
+                </td>
+                <td>
+                    <a href="{{ path('app_student_edit', {'id': student.id}) }}">Edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="16">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

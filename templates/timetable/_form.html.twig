@@ -1,0 +1,91 @@
+<form action="/admin/timetable/{{ url|default('new') }}/{{ school_class.id }}" method="post">
+    <div class="table-responsive">
+        <table class="table table-striped mb-5">
+            <thead>
+                <th class="col-xs"></th>
+                {% for hour in timetable['Monday']|keys %}
+                    <th class="col-xs">
+                    {{ include('timetable/_time_converter.html.twig') }}
+                    </th>
+                {% endfor %}
+            </thead>
+
+            {# A cause d'un bug en prod, la boucle sur les jours n'affiche pas les jours dans le bon ordre #}
+
+            {# {% for day in timetable|keys %}
+            <tr class="col-xs">
+                <th>{{ day }}</th>
+                {% for hour in timetable[day]|keys %}
+                <td class="col-xs">
+                    <input type="text" style="width: 90px;" id="{{ hour }}" name="{{ day }}_{{ hour }}" value="{{ timetable[day][hour] }}" >
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %} #}
+
+            <tr class="col-xs">
+                <th>Monday</th>
+                {% for hour in timetable['Monday']|keys %}
+                <td class="col-xs">
+                    <input type="text" style="width: 90px;" id="{{ hour }}" name="Monday_{{ hour }}" value="{{ timetable['Monday'][hour] }}" >
+                </td>
+                {% endfor %}
+            </tr>
+            <tr class="col-xs">
+                <th>Tuesday</th>
+                {% for hour in timetable['Tuesday']|keys %}
+                <td class="col-xs">
+                    <input type="text" style="width: 90px;" id="{{ hour }}" name="Tuesday_{{ hour }}" value="{{ timetable['Tuesday'][hour] }}" >
+                </td>
+                {% endfor %}
+            </tr>
+            <tr class="col-xs">
+                <th>Wednesday</th>
+                {% for hour in timetable['Wednesday']|keys %}
+                <td class="col-xs">
+                    <input type="text" style="width: 90px;" id="{{ hour }}" name="Wednesday_{{ hour }}" value="{{ timetable['Wednesday'][hour] }}" >
+                </td>
+                {% endfor %}
+            </tr>
+            <tr class="col-xs">
+                <th>Thursday</th>
+                {% for hour in timetable['Thursday']|keys %}
+                <td class="col-xs">
+                    <input type="text" style="width: 90px;" id="{{ hour }}" name="Thursday_{{ hour }}" value="{{ timetable['Thursday'][hour] }}" >
+                </td>
+                {% endfor %}
+            </tr>
+            <tr class="col-xs">
+                <th>Friday</th>
+                {% for hour in timetable['Friday']|keys %}
+                <td class="col-xs">
+                    <input type="text" style="width: 90px;" id="{{ hour }}" name="Friday_{{ hour }}" value="{{ timetable['Friday'][hour] }}" >
+                </td>
+                {% endfor %}
+            </tr>
+            <tr class="col-xs">
+                <th>Saturday</th>
+                {% for hour in timetable['Saturday']|keys %}
+                <td class="col-xs">
+                    <input type="text" style="width: 90px;" id="{{ hour }}" name="Saturday_{{ hour }}" value="{{ timetable['Saturday'][hour] }}" >
+                </td>
+                {% endfor %}
+            </tr>
+            <tr class="col-xs">
+                <th>Sunday</th>
+                {% for hour in timetable['Sunday']|keys %}
+                <td class="col-xs">
+                    <input type="text" style="width: 90px;" id="{{ hour }}" name="Sunday_{{ hour }}" value="{{ timetable['Sunday'][hour] }}" >
+                </td>
+                {% endfor %}
+            </tr>
+            
+        </table>
+    </div>
+    
+    <div class="col-5 mt-5 container">
+        <div class="d-flex flex-column justify-content-around">
+            <button class="btn btn-primary m-3" type="submit" class="btn">Confirm</button>
+        </div>
+    </div>
+</form>

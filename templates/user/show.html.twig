@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block main %}
+    <main class="container">
+        <h1 class="mb-4">User</h1>
+        <table class="table table-striped mb-4">
+            <tbody>
+                <tr>
+                    <th class="col-3">Username</th>
+                    <td>{{ user.username }}</td>
+                </tr>
+                <tr>
+                    <th>First name</th>
+                    <td>{{ user.firstname }}</td>
+                </tr>
+                <tr>
+                    <th>Last name</th>
+                    <td>{{ user.lastname }}</td>
+                </tr>
+                <tr>
+                    <th>Pincode</th>
+                    <td>{{ user.pincode }}</td>
+                </tr>
+                <tr>
+                    <th>Roles</th>
+                    {% if 'ROLE_ADMIN' in user.roles %}
+                    <td>Administrator</td>
+                    {% elseif 'ROLE_EDITOR' in user.roles %}
+                    <td>Scan and create</td>
+                    {% else %}
+                    <td>Scan-only user</td>
+                    {% endif %}    
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="col-5 mt-5 container">
+            <div class="d-flex flex-column justify-content-around">
+                <a class="btn btn-primary m-3" href="{{ path('app_user_edit', {'id': user.id}) }}">Edit</a>
+                <a class="btn btn-info m-3" href="{{ path('app_user_index') }}">Back to list</a>
+            </div>
+        </div>
+    </main>
+{% endblock %}

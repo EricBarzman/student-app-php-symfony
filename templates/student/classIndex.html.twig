@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Students of class {{ school_class.className }}{% endblock %}
+
+{% block main %}
+    <main class="container">
+        <h1 class="mb-4">
+            {% if school_class is defined %}
+            Students of class {{ school_class.className }}
+            {% endif %}
+        </h1>
+        <p class="mt-5">Number of students: {{ students|length }}.</p>
+        {{ include('student/_indexTable.html.twig') }}
+        <div class="col-5 mt-5 container">
+            <div class="d-flex flex-column justify-content-around">
+                <a class="btn btn-secondary m-3 text-white" href="{{ path('app_school_class_print_all_cards', { 'id' : school_class.id }) }}">Print cards</a>
+                <a class="btn btn-primary m-3" href="{{ path('app_school_class_show', {'id': school_class.id}) }}">Back to class</a>
+                <a class="btn btn-info m-3" href="{{ path('app_student_index', {'page' : 1}) }}">Go to student index</a>
+            </div>
+        </div>
+    </main>
+
+{% endblock %}

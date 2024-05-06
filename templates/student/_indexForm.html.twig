@@ -1,0 +1,14 @@
+<form action="{{ path('app_student_search_index', {'page': 1}) }}" method='get'>
+    <div>Search by</div>
+    <input name="studentID" type='text' placeholder="Student ID..."/>
+    <input name="firstname" type='text' placeholder="First name..."/>
+    <input name="lastname" type='text' placeholder="Last name..."/>
+    <select name="classID">
+        <option value=''>- Choose a class -</option>
+    {% for class in classes %}
+        <option value={{ class.id }}>{{ class.className }}</option>
+    {% endfor %}
+    </select>
+    <button class="btn btn-primary" type="submit">Search</button>
+    <a class="btn btn-info" type="button" href="{{ path('app_student_index', {'page': 1}) }}">Clear</a>
+</form>

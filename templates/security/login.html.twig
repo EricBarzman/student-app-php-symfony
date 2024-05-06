@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block main %}
+<main class="container">
+    {% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% endif %}
+
+    <h2 class="h2 mb-3 font-weight-normal">Please sign in</h2>
+    {% if limitToken > 0 %}
+        <div class="alert col-8 {{ limitToken < 3 ? 'alert-danger' : 'alert-success'}}">You have {{ limitToken }} attempts{{ limitToken < 5 ? ' left' : '' }}.</div>
+    {% else %}
+        <div class="alert col-8 alert-danger">You have no more attempts left. Wait {{ limitTime|date('%i') > 0 ? limitTime|date('%i')~' minutes'  }}{{ limitTime|date('%i') == 0 ? limitTime|date('%s')~' seconds' : '' }} to try again.</div>
+    {% endif %}
+
+    {% if limitToken > 0 %}
+    <form class="p-2" method="post">
+        <div class="mt-4">Enter Pin</div>
+        <div class="d-flex col-sm-5 flex-column">
+            <input type="password" inputmode="numeric" maxlength="6" class="text-center form-control-lg mb-2" id="code" name="pincode">
+            <button type="submit" class="btn btn-info p-3 text-white">Sign in</button>
+        </div>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+    </form>
+    {% endif %}
+</main>
+{% endblock %}
